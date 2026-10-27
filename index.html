@@ -1,804 +1,137 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <link rel="icon" type="image/jpeg" href="icon.JPG">
-<link rel="apple-touch-icon" href="icon.JPG">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b1020">
-<title>مِحكّ</title>
+<!doctype html>
+<html lang="ar" dir="rtl"><head><link rel="icon" type="image/jpeg" href="icon.JPG">
+<link rel="apple-touch-icon" href="icon.JPG"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#172a3a"><title>مِحكّ | مختبر تحليل القضايا</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0b1020;
-  --surface:#11182b;
-  --surface2:#17213a;
-  --border:rgba(255,255,255,.08);
-  --text:#f5f7fb;
-  --muted:#9ba7bd;
-  --accent:#8b5cf6;
-  --accent2:#6366f1;
-  --green:#22c55e;
-  --red:#ef4444;
-  --gold:#f59e0b;
-  --shadow:0 20px 50px rgba(0,0,0,.25);
-}
-body{
-  font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;
-  background:
-    radial-gradient(circle at 85% 5%,rgba(139,92,246,.16),transparent 28%),
-    radial-gradient(circle at 10% 90%,rgba(99,102,241,.1),transparent 30%),
-    var(--bg);
-  color:var(--text);
-  min-height:100vh;
-}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.app{min-height:100vh;padding-bottom:80px}
-.header{
-  position:sticky;top:0;z-index:20;
-  backdrop-filter:blur(18px);
-  background:rgba(11,16,32,.78);
-  border-bottom:1px solid var(--border);
-  padding:16px 20px;
-}
-.header-inner{
-  max-width:1100px;margin:auto;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:15px;
-}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{
-  width:44px;height:44px;border-radius:14px;
-  display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  font-size:22px;font-weight:900;
-  box-shadow:0 10px 30px rgba(99,102,241,.3);
-}
-.brand h1{font-size:21px}
-.brand p{font-size:11px;color:var(--muted);margin-top:2px}
-.icon-btn{
-  width:42px;height:42px;border:1px solid var(--border);
-  background:var(--surface);color:var(--text);
-  border-radius:13px;
-}
-main{max-width:1100px;margin:auto;padding:25px 18px}
-.hero{
-  padding:28px 0 20px;
-}
-.hero h2{font-size:clamp(27px,6vw,43px);line-height:1.15;margin-bottom:10px}
-.hero p{color:var(--muted);line-height:1.9;max-width:650px}
-.stats{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:10px;margin:20px 0;
-}
-.stat{
-  background:rgba(17,24,43,.8);
-  border:1px solid var(--border);
-  border-radius:18px;padding:17px;
-}
-.stat strong{display:block;font-size:25px;margin-bottom:4px}
-.stat span{font-size:12px;color:var(--muted)}
-.section-title{
-  display:flex;align-items:center;justify-content:space-between;
-  margin:28px 0 13px;
-}
-.section-title h3{font-size:18px}
-.section-title span{font-size:12px;color:var(--muted)}
-.categories{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:11px;
-}
-.category{
-  text-align:right;border:1px solid var(--border);
-  background:var(--surface);color:var(--text);
-  border-radius:18px;padding:18px;
-  transition:.2s;
-}
-.category:hover{transform:translateY(-2px);border-color:rgba(139,92,246,.4)}
-.category .cat-icon{font-size:25px;margin-bottom:10px}
-.category strong{display:block;margin-bottom:5px}
-.category small{color:var(--muted)}
-.case-grid{display:grid;gap:13px}
-.case-card{
-  border:1px solid var(--border);
-  background:linear-gradient(145deg,rgba(23,33,58,.95),rgba(17,24,43,.95));
-  border-radius:21px;padding:20px;
-}
-.case-top{display:flex;justify-content:space-between;gap:10px;align-items:start}
-.badge{
-  display:inline-flex;padding:6px 10px;border-radius:20px;
-  font-size:11px;background:rgba(139,92,246,.12);
-  color:#c4b5fd;
-}
-.case-card h4{font-size:18px;margin:12px 0 8px}
-.case-card p{color:var(--muted);line-height:1.8;font-size:14px}
-.case-meta{display:flex;gap:10px;margin-top:15px;color:var(--muted);font-size:11px}
-.primary{
-  border:0;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));
-  padding:13px 18px;border-radius:14px;font-weight:700;
-  box-shadow:0 10px 25px rgba(99,102,241,.2);
-}
-.secondary{
-  border:1px solid var(--border);color:var(--text);
-  background:var(--surface);padding:12px 17px;border-radius:14px;
-}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
-.screen{display:none}
-.screen.active{display:block}
-.case-page{
-  max-width:800px;margin:auto;
-}
-.back{
-  display:flex;align-items:center;gap:7px;
-  border:0;background:none;color:var(--muted);padding:5px 0;
-  margin-bottom:20px;
-}
-.case-header{
-  background:linear-gradient(145deg,#171f37,#10172a);
-  border:1px solid var(--border);
-  border-radius:24px;padding:23px;
-}
-.case-header h2{font-size:25px;margin:13px 0 8px}
-.case-header p{color:var(--muted);line-height:1.9}
-.info-box{
-  margin-top:16px;padding:15px;
-  border-radius:15px;background:rgba(139,92,246,.07);
-  border:1px solid rgba(139,92,246,.16);
-  color:#cbd5e1;line-height:1.8;font-size:14px;
-}
-.clues{display:grid;gap:10px;margin-top:15px}
-.clue{
-  padding:15px;border:1px solid var(--border);
-  border-radius:15px;background:var(--surface);
-}
-.clue strong{display:block;margin-bottom:6px}
-.clue p{color:var(--muted);font-size:13px;line-height:1.8}
-.question{
-  margin-top:18px;background:var(--surface);
-  border:1px solid var(--border);border-radius:22px;padding:20px;
-}
-.question h3{font-size:17px;margin-bottom:13px}
-textarea{
-  width:100%;min-height:170px;resize:vertical;
-  border:1px solid var(--border);border-radius:16px;
-  background:#0c1324;color:var(--text);
-  padding:15px;outline:none;line-height:1.9;
-}
-textarea:focus{border-color:rgba(139,92,246,.65)}
-.choice-list{display:grid;gap:10px}
-.choice{
-  text-align:right;width:100%;padding:15px;
-  background:#0d1425;color:var(--text);
-  border:1px solid var(--border);border-radius:15px;
-}
-.choice.selected{border-color:var(--accent);background:rgba(139,92,246,.1)}
-.progress{
-  height:6px;background:#182137;border-radius:20px;overflow:hidden;
-  margin:15px 0;
-}
-.progress span{
-  display:block;height:100%;width:25%;
-  background:linear-gradient(90deg,var(--accent),#a78bfa);
-}
-.result{
-  margin-top:20px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:22px;padding:22px;
-}
-.score{
-  text-align:center;padding:10px 0 20px;
-}
-.score strong{font-size:52px;display:block}
-.score span{color:var(--muted)}
-.analysis-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
-}
-.analysis{
-  padding:14px;background:#0d1425;border-radius:15px;
-}
-.analysis label{display:block;color:var(--muted);font-size:11px;margin-bottom:7px}
-.analysis strong{font-size:20px}
-.empty{
-  text-align:center;padding:45px 20px;
-  border:1px dashed var(--border);border-radius:20px;
-  color:var(--muted);
-}
-.history-item{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:18px;padding:17px;margin-bottom:10px;
-}
-.history-item strong{display:block;margin-bottom:6px}
-.history-item span{font-size:11px;color:var(--muted)}
-.nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:30;
-  background:rgba(11,16,32,.9);backdrop-filter:blur(18px);
-  border-top:1px solid var(--border);
-  padding:9px max(12px,env(safe-area-inset-left))
-          calc(9px + env(safe-area-inset-bottom))
-          max(12px,env(safe-area-inset-right));
-}
-.nav-inner{
-  max-width:600px;margin:auto;
-  display:grid;grid-template-columns:repeat(3,1fr);gap:7px;
-}
-.nav button{
-  border:0;background:none;color:var(--muted);
-  padding:8px;border-radius:12px;font-size:11px;
-}
-.nav button.active{background:rgba(139,92,246,.12);color:#c4b5fd}
-.nav-icon{display:block;font-size:19px;margin-bottom:3px}
-.toast{
-  position:fixed;bottom:90px;left:50%;
-  transform:translateX(-50%) translateY(20px);
-  background:#202a42;color:#fff;padding:12px 18px;
-  border-radius:13px;border:1px solid var(--border);
-  opacity:0;pointer-events:none;transition:.25s;z-index:50;
-  white-space:nowrap;font-size:13px;
-}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(min-width:700px){
-  .categories{grid-template-columns:repeat(4,1fr)}
-  .case-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:420px){
-  .stats{grid-template-columns:1fr}
-  .analysis-grid{grid-template-columns:1fr}
-  main{padding-left:13px;padding-right:13px}
-}
-</style>
-</head>
-
-<body>
-<div class="app">
-
-<header class="header">
-  <div class="header-inner">
-    <div class="brand">
-      <div class="logo">م</div>
-      <div>
-        <h1>مِحكّ</h1>
-        <p>مختبر التفكير واتخاذ القرار</p>
-      </div>
-    </div>
-    <button class="icon-btn" id="themeBtn" onclick="toggleTheme()">☾</button>
-  </div>
-</header>
-
-<main>
-
-<section id="homeScreen" class="screen active">
-  <div class="hero">
-    <h2>لا تبحث عن الإجابة.<br>ابحث عن أفضل قرار.</h2>
-    <p>
-      واجه قضايا حقيقية، حلّل الأدلة، اتخذ قراراتك،
-      ثم اكتشف كيف تفكر تحت الضغط.
-    </p>
-  </div>
-
-  <div class="stats">
-    <div class="stat">
-      <strong id="solvedCount">0</strong>
-      <span>قضية محلولة</span>
-    </div>
-    <div class="stat">
-      <strong id="thinkingScore">—</strong>
-      <span>متوسط التفكير</span>
-    </div>
-    <div class="stat">
-      <strong id="streakCount">0</strong>
-      <span>أيام متتالية</span>
-    </div>
-  </div>
-
-  <div class="section-title">
-    <h3>مجالات القضايا</h3>
-    <span>اختر مجالًا</span>
-  </div>
-
-  <div class="categories">
-    <button class="category" onclick="filterCases('منطق')">
-      <div class="cat-icon">🧠</div>
-      <strong>منطق</strong>
-      <small>حل المشكلات والاستنتاج</small>
-    </button>
-
-    <button class="category" onclick="filterCases('تحقيق')">
-      <div class="cat-icon">🔎</div>
-      <strong>تحقيق</strong>
-      <small>أدلة وتناقضات</small>
-    </button>
-
-    <button class="category" onclick="filterCases('قرار')">
-      <div class="cat-icon">⚖️</div>
-      <strong>قرارات</strong>
-      <small>مواقف متعددة الاحتمالات</small>
-    </button>
-
-    <button class="category" onclick="filterCases('إدارة')">
-      <div class="cat-icon">♟️</div>
-      <strong>إدارة</strong>
-      <small>أزمات وفرق ومشاريع</small>
-    </button>
-  </div>
-
-  <div class="section-title">
-    <h3>قضايا مقترحة</h3>
-    <span id="caseCount"></span>
-  </div>
-
-  <div class="case-grid" id="caseGrid"></div>
-</section>
-
-<section id="casesScreen" class="screen">
-  <div class="hero">
-    <h2>مكتبة القضايا</h2>
-    <p>اختر قضية، واجمع المعلومات، ثم ابنِ قرارك بنفسك.</p>
-  </div>
-  <div class="case-grid" id="allCases"></div>
-</section>
-
-<section id="historyScreen" class="screen">
-  <div class="hero">
-    <h2>سجل التفكير</h2>
-    <p>كل قرار تتخذه هنا يصبح جزءًا من رحلة تطورك.</p>
-  </div>
-  <div id="historyList"></div>
-</section>
-
-<section id="caseScreen" class="screen">
-  <div class="case-page">
-    <button class="back" onclick="showScreen('homeScreen')">→ العودة للقضايا</button>
-    <div id="caseContent"></div>
-  </div>
-</section>
-
-</main>
-
-<nav class="nav">
-  <div class="nav-inner">
-    <button id="navHome" class="active" onclick="showScreen('homeScreen')">
-      <span class="nav-icon">⌂</span>
-      الرئيسية
-    </button>
-    <button id="navCases" onclick="showScreen('casesScreen')">
-      <span class="nav-icon">⚖</span>
-      القضايا
-    </button>
-    <button id="navHistory" onclick="showScreen('historyScreen')">
-      <span class="nav-icon">◷</span>
-      سجلي
-    </button>
-  </div>
-</nav>
-
-<div class="toast" id="toast"></div>
-
-</div>
-
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap');
+:root{--bg:#f2f3f5;--paper:#fff;--ink:#192735;--muted:#71808e;--navy:#172f43;--blue:#28618a;--gold:#c9a86a;--line:#e0e5e9;--soft:#eaf1f6;--green:#28765b;--red:#a74646;--shadow:0 12px 36px #172f430b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Arabic',sans-serif}button,input,select{font:inherit}button{cursor:pointer}.app{max-width:1400px;margin:auto;padding:22px}.top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px}.mark{height:49px;width:49px;border-radius:15px;background:var(--navy);color:#f0d7a0;display:grid;place-items:center;font:30px Amiri}.brand h1{margin:0;font-size:23px}.brand p{margin:3px 0;color:var(--muted);font-size:12px}.topbtns{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 14px;border-radius:11px;font-size:13px;font-weight:600}.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}.btn.gold{background:#f6f0e3;border-color:#e7d9b8;color:#765c2c}.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:20px}.side{background:var(--paper);border:1px solid var(--line);border-radius:17px;padding:11px;height:max-content;position:sticky;top:12px}.nav{padding:12px;border-radius:10px;color:#586775;cursor:pointer;font-size:13px;margin:3px 0}.nav.active,.nav:hover{background:var(--soft);color:var(--navy);font-weight:700}.side-note{background:#f5f0e4;border-radius:12px;padding:13px;margin-top:17px;font:16px/1.8 Amiri;color:#6d552b}.page{display:none}.page.active{display:block}.welcome{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:3px 0 20px}.eyebrow{font-size:11px;color:var(--blue);font-weight:700;letter-spacing:.2px}.welcome h2{font-size:27px;margin:5px 0}.muted{font-size:12px;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:20px}.stat,.panel,.casecard,.librarycard{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.stat{padding:15px}.stat label{font-size:11px;color:var(--muted)}.stat strong{display:block;font-size:26px;margin:6px 0}.stat small{font-size:10px;color:var(--muted)}.grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}.panel{padding:18px}.panel h3{font-size:16px;margin:0 0 8px}.panel p{font-size:12px;color:var(--muted);line-height:1.8}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 0 12px}.sectionhead h3{margin:0;font-size:16px}.casegrid,.librarygrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.casecard,.librarycard{padding:16px;cursor:pointer;transition:.18s}.casecard:hover,.librarycard:hover{transform:translateY(-2px);border-color:#b8cbd8}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}.chip{font-size:10px;padding:5px 8px;border-radius:7px;background:var(--soft);color:var(--blue)}.chip.gold{background:#f7f0df;color:#806633}.casecard h4,.librarycard h4{font-size:15px;margin:6px 0;line-height:1.7}.casecard p,.librarycard p{font-size:12px;color:var(--muted);line-height:1.8;margin:5px 0 12px}.cardfoot{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--muted);gap:8px}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}.field{border:1px solid var(--line);background:white;border-radius:10px;padding:11px 12px;min-width:0;color:var(--ink);outline:none}.field:focus{border-color:#7ea4bf;box-shadow:0 0 0 3px #28618a12}.toolbar .field.search{flex:1;min-width:190px}.toolbar select{min-width:145px}.hero-case{background:linear-gradient(130deg,#172f43,#264d68);color:#fff;padding:24px;border-radius:18px;margin-bottom:15px}.hero-case .chip{background:#ffffff1c;color:#f2dba7}.hero-case h2{font-size:24px;line-height:1.7;margin:10px 0}.hero-case p{color:#dce6ee;line-height:2;font-size:14px;margin:0}.stepbar{display:flex;gap:7px;margin:16px 0}.step{height:5px;background:#dfe5e9;flex:1;border-radius:9px}.step.done{background:var(--gold)}.question{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:12px}.qtop{display:flex;justify-content:space-between;gap:10px;align-items:center}.qtop span{font-size:11px;color:var(--blue);font-weight:700}.question h3{font-size:18px;line-height:1.8;margin:12px 0}.question .hint{font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:14px}.options{display:grid;gap:8px}.option{display:flex;align-items:flex-start;gap:10px;padding:13px;border:1px solid var(--line);border-radius:11px;background:#fff;text-align:right;color:var(--ink);font-size:13px;line-height:1.8;width:100%}.option:hover{border-color:#9ab5c9;background:#f8fbfd}.option.selected{border-color:var(--blue);background:#edf5fa;box-shadow:inset 0 0 0 1px var(--blue)}.option.correct{border-color:#83b59c;background:#eef8f2}.option.wrong{border-color:#d6a1a1;background:#fff2f2}.letter{width:25px;height:25px;display:grid;place-items:center;border:1px solid #dbe2e8;border-radius:8px;flex-shrink:0;font-size:11px;font-weight:700}.option.selected .letter{background:var(--navy);color:#fff;border-color:var(--navy)}.feedback{font-size:12px;line-height:1.9;padding:12px;border-radius:10px;margin-top:10px;background:#f2f5f7;color:#405362}.feedback.good{background:#edf7f0;color:#286044}.feedback.bad{background:#fff2f0;color:#8a3f3f}.case-actions{display:flex;justify-content:space-between;gap:9px;flex-wrap:wrap;margin:15px 0}.result{padding:24px;background:#fff;border:1px solid var(--line);border-radius:17px;text-align:center}.result .score{font-size:48px;font-weight:700;color:var(--navy)}.result h3{font-size:22px;margin:4px}.result p{font-size:13px;color:var(--muted);line-height:1.9}.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}.resultstat{background:#f3f5f6;padding:12px;border-radius:11px}.resultstat b{display:block;font-size:20px}.resultstat span{font-size:10px;color:var(--muted)}.empty{text-align:center;padding:40px 15px;border:1px dashed #cbd4db;border-radius:15px;color:var(--muted);grid-column:1/-1}.empty b{display:block;color:var(--ink);margin:7px}.librarycard .cardfoot{margin-top:12px}.librarycard .openlabel{color:var(--blue);font-weight:700}.modalback{display:none;position:fixed;inset:0;background:#0d1e2bba;z-index:10;align-items:center;justify-content:center;padding:15px}.modalback.show{display:flex}.modal{width:min(520px,100%);background:#fff;border-radius:17px;padding:22px}.modalhead{display:flex;align-items:center;justify-content:space-between}.modalhead h3{margin:0}.close{border:0;background:#eef1f3;border-radius:9px;width:34px;height:34px;font-size:20px}.formrow{display:grid;gap:6px;margin:12px 0}.formrow label{font-size:12px;color:var(--muted)}.formrow input,.formrow select{width:100%}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;background:var(--navy);color:white;padding:11px 17px;border-radius:10px;transition:.2s;z-index:20;font-size:13px}.toast.show{opacity:1;transform:translate(-50%,0)}.foot{text-align:center;color:#89939a;font-size:10px;padding:25px 0 5px}.disclaimer{border-right:3px solid var(--gold);padding:9px 12px;background:#f8f4e9;color:#685632;font-size:11px;line-height:1.9;border-radius:6px;margin-top:13px}
+@media(max-width:950px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.layout{grid-template-columns:185px minmax(0,1fr)}}@media(max-width:700px){.app{padding:12px}.layout{grid-template-columns:1fr}.side{position:static;display:flex;overflow-x:auto;gap:2px;padding:6px}.nav{white-space:nowrap;padding:10px;font-size:12px}.side-note{display:none}.casegrid,.librarygrid{grid-template-columns:1fr}.welcome h2{font-size:22px}.welcome{align-items:flex-start}.top{align-items:flex-start}.brand h1{font-size:20px}.topbtns .btn{font-size:11px;padding:9px}.hero-case{padding:18px}.hero-case h2{font-size:21px}.question{padding:15px}.question h3{font-size:16px}.result-grid{grid-template-columns:1fr 1fr 1fr}}@media(max-width:390px){.stats{gap:7px}.stat{padding:11px}.stat strong{font-size:22px}.topbtns{max-width:130px}.topbtns .btn{width:100%}}
+</style></head><body><div class="app">
+<header class="top"><div class="brand"><div class="mark">م</div><div><h1>مِحكّ</h1><p>مختبر التفكير وتحليل القضايا</p></div></div><div class="topbtns"><button class="btn" onclick="exportData()">تصدير التقدم</button><button class="btn primary" onclick="startRandom()">ابدأ قضية</button></div></header>
+<div class="layout"><aside class="side"><div class="nav active" data-page="home" onclick="showPage('home')">⌂　لوحة التحليل</div><div class="nav" data-page="library" onclick="showPage('library')">▤　مكتبة القضايا</div><div class="nav" data-page="analysis" onclick="showPage('analysis')">◈　حلّل قضية</div><div class="nav" data-page="progress" onclick="showPage('progress')">◷　تقدمي</div><div class="nav" data-page="method" onclick="showPage('method')">◎　منهج التحليل</div><div class="side-note">«ليس كل ما يبدو مقنعًا صحيحًا، ولا كل ما يبدو صحيحًا قد ثبت.»</div></aside>
+<main style="min-width:0">
+<section id="page-home" class="page active"><div class="welcome"><div><div class="eyebrow">فكّر بعمق، واحكم بدليل</div><h2>مرحبًا بك في مِحكّ</h2><div class="muted">درّب عقلك على تفكيك الادعاءات وفحص الأدلة ورؤية زوايا القضية.</div></div><button class="btn primary" onclick="startRandom()">ابدأ تدريبًا الآن ←</button></div><div class="stats"><div class="stat"><label>قضايا في المكتبة</label><strong id="totalCases">0</strong><small>قضايا تدريبية متعددة المجالات</small></div><div class="stat"><label>قضايا أكملتها</label><strong id="completed">0</strong><small>محاولات مكتملة محفوظة</small></div><div class="stat"><label>متوسط الدقة</label><strong id="accuracy">—</strong><small>بحسب إجاباتك المسجلة</small></div><div class="stat"><label>نقاط التفكير</label><strong id="points">0</strong><small>تُكتسب من التحليل المكتمل</small></div></div><div class="sectionhead"><h3>قضايا مقترحة لك</h3><button class="btn" onclick="showPage('library')">كل المكتبة ←</button></div><div id="featured" class="casegrid"></div><div class="grid2" style="margin-top:16px"><div class="panel"><h3>كيف يعمل مِحكّ؟</h3><p>كل قضية سلسلة أسئلة اختيار من متعدد. تبدأ بتحديد نوع الادعاء، ثم فحص الدليل، واكتشاف الخلل المنطقي، وموازنة التفسيرات، وتنتهي بحكم مبرّر. تحصل على تفسير بعد كل إجابة، لا مجرد علامة صح أو خطأ.</p><button class="btn" onclick="showPage('method')">استكشف المنهج</button></div><div class="panel"><h3>تابع من حيث توقفت</h3><p id="continueText">ابدأ أول قضية لتظهر هنا نتائجك وتقدمك.</p><button class="btn primary" onclick="showPage('progress')">عرض سجلي</button></div></div><div class="disclaimer">المكتبة للتدريب على التفكير والتحليل وليست بديلًا عن الاستشارة القانونية أو الطبية أو المتخصصة. القضايا الافتراضية لا تمثل بالضرورة وقائع حقيقية.</div></section>
+<section id="page-library" class="page"><div class="welcome"><div><div class="eyebrow">موسوعة تدريبية تفاعلية</div><h2>مكتبة القضايا</h2><div class="muted">ابحث، صفِّ النتائج، واختر قضية لتحليلها بالأسئلة.</div></div></div><div class="toolbar"><input id="search" class="field search" placeholder="ابحث بعنوان القضية أو موضوعها..." oninput="renderLibrary()"><select id="category" class="field" onchange="renderLibrary()"><option value="all">كل المجالات</option></select><select id="level" class="field" onchange="renderLibrary()"><option value="all">كل المستويات</option><option value="مبتدئ">مبتدئ</option><option value="متوسط">متوسط</option><option value="متقدم">متقدم</option></select><select id="status" class="field" onchange="renderLibrary()"><option value="all">كل الحالات</option><option value="done">أنهيتها</option><option value="new">لم أبدأها</option></select></div><div id="librarygrid" class="librarygrid"></div></section>
+<section id="page-analysis" class="page"><div id="analysisMount"><div class="empty"><b>اختر قضية لتبدأ</b>يمكنك اختيار واحدة من مكتبة القضايا أو بدء قضية عشوائية.<br><button class="btn primary" style="margin-top:14px" onclick="showPage('library')">فتح المكتبة</button></div></div></section>
+<section id="page-progress" class="page"><div class="welcome"><div><div class="eyebrow">تطوّر تفكيرك بالأرقام</div><h2>سجل التقدم</h2><div class="muted">نتائجك محفوظة على هذا الجهاز.</div></div><button class="btn" onclick="exportData()">تصدير السجل</button></div><div class="stats"><div class="stat"><label>محاولات مكتملة</label><strong id="pCompleted">0</strong></div><div class="stat"><label>متوسط الدقة</label><strong id="pAccuracy">—</strong></div><div class="stat"><label>نقاط مكتسبة</label><strong id="pPoints">0</strong></div><div class="stat"><label>مجالات جرّبتها</label><strong id="pCategories">0</strong></div></div><div class="panel"><h3>آخر المحاولات</h3><div id="history" style="margin-top:12px"></div></div><div class="case-actions"><button class="btn" onclick="resetProgress()">مسح التقدم</button></div></section>
+<section id="page-method" class="page"><div class="welcome"><div><div class="eyebrow">أدوات التفكير النقدي</div><h2>منهج مِحكّ في التحليل</h2><div class="muted">لا تتبنَّ نتيجة قبل أن تعرف ما الذي يسندها.</div></div></div><div class="casegrid"><article class="panel"><h3>١. صياغة القضية</h3><p>ما الادعاء المحدد؟ وهل هو واقعي أم قيمي أم سببي؟ افصل صياغة الادعاء عن الانطباع الذي يثيره.</p></article><article class="panel"><h3>٢. فحص الأدلة</h3><p>من أين جاءت المعلومة؟ هل المصدر مباشر وموثوق؟ هل حجم العينة كافٍ؟ وهل الدليل يؤيد الادعاء فعلًا؟</p></article><article class="panel"><h3>٣. اختبار المنطق</h3><p>ابحث عن التعميم المتسرع، والسببية الزائفة، والثنائية الكاذبة، والاحتكام إلى الشهرة أو الشخص بدل الحجة.</p></article><article class="panel"><h3>٤. بدائل وتفسيرات</h3><p>هل توجد تفسيرات أخرى للنتيجة؟ ما المعلومة التي قد تغيّر الحكم؟ وهل جرى تجاهل أدلة مخالفة؟</p></article><article class="panel"><h3>٥. حكم متناسب</h3><p>النتيجة الجيدة لا تتجاوز قوة الأدلة. استخدم «غير محسوم» حين لا تكفي المعطيات بدل اختراع يقين.</p></article><article class="panel"><h3>٦. مراجعة التحيز</h3><p>هل كنت سأقبل الدليل نفسه لو دعم الرأي المعاكس؟ ميّز بين ما تتمناه، وما تعتقده، وما تستطيع إثباته.</p></article></div><div class="disclaimer">تُقدَّم إجابات القضايا وتفسيراتها لأغراض تعليمية. في الموضوعات الخلافية، قد توجد أطر تحليل متعددة؛ ابحث عن المصادر الأصلية ولا تخلط بين التقييم المنطقي والحكم النهائي.</div></section>
+</main></div><div class="foot">مِحكّ · فكّر قبل أن تحكم</div></div>
+<div id="modalback" class="modalback"><div class="modal"><div class="modalhead"><h3 id="modalTitle">تأكيد</h3><button class="close" onclick="closeModal()">×</button></div><div id="modalBody"></div><div class="case-actions"><button class="btn" onclick="closeModal()">إلغاء</button><button class="btn primary" id="modalConfirm">تأكيد</button></div></div></div><div class="toast" id="toast"></div>
 <script>
-"use strict";
-
-const cases = [
-  {
-    id:1,
-    category:"منطق",
-    difficulty:"متوسط",
-    title:"المخزن المغلق",
-    description:"اختفى صندوق مهم من مخزن لا يدخله إلا ثلاثة أشخاص. أمامك مجموعة من الأدلة والتصريحات المتناقضة.",
-    clues:[
-      ["الدليل الأول","باب المخزن لم يُفتح باستخدام المفتاح الاحتياطي."],
-      ["الدليل الثاني","الشخص الأول قال إنه دخل المخزن الساعة 8:00."],
-      ["الدليل الثالث","سجل النظام يظهر أن الإضاءة شُغّلت الساعة 8:17."],
-      ["الدليل الرابع","الشخص الثاني يؤكد أنه رأى المخزن مضاءً قبل الساعة 8:10."]
-    ],
-    question:"من تعتقد أن روايته تحتوي على التناقض الأكبر؟ وما الاستنتاج الذي بنيت عليه قرارك؟"
-  },
-  {
-    id:2,
-    category:"تحقيق",
-    difficulty:"صعب",
-    title:"الرسالة المجهولة",
-    description:"وصلت رسالة مجهولة إلى فريقك قبل وقوع مشكلة كبيرة. الرسالة تحتوي على معلومات لا يفترض أن يعرفها إلا شخص من داخل الفريق.",
-    clues:[
-      ["الدليل الأول","الرسالة أُرسلت قبل المشكلة بـ 9 ساعات."],
-      ["الدليل الثاني","ثلاثة أشخاص فقط كانوا يعرفون موعد الاجتماع."],
-      ["الدليل الثالث","أحدهم غادر المبنى قبل الموعد بساعتين."],
-      ["الدليل الرابع","الرسالة تضمنت معلومة لم تُذكر في الاجتماع أصلًا."]
-    ],
-    question:"كيف ستحدد مصدر الرسالة؟ وما المعلومة التي ستبحث عنها أولًا؟"
-  },
-  {
-    id:3,
-    category:"قرار",
-    difficulty:"متوسط",
-    title:"المشروع المتعثر",
-    description:"أنت مسؤول عن فريق أمامه خمسة أيام لإنهاء مشروع مهم. لديك عضو خبير لكنه يتأخر باستمرار، وعضو ملتزم لكنه أقل خبرة.",
-    clues:[
-      ["الوضع الحالي","الفريق أنجز 65% من المشروع."],
-      ["الخطر","إذا تأخر العمل يومين فلن يكون هناك وقت للاختبار."],
-      ["المورد","يمكنك إعادة توزيع المهام، لكن ذلك قد يسبب توترًا داخل الفريق."]
-    ],
-    question:"ما القرار الذي ستتخذه الآن؟ ولماذا؟ اذكر المخاطر التي قبلت تحملها."
-  },
-  {
-    id:4,
-    category:"إدارة",
-    difficulty:"صعب",
-    title:"الفريق المنقسم",
-    description:"انقسم فريقك إلى مجموعتين بسبب اختلافهما حول طريقة تنفيذ مشروع واحد. كل مجموعة تملك حججًا قوية.",
-    clues:[
-      ["المجموعة الأولى","تريد إنهاء المشروع بسرعة باستخدام الطريقة المجربة."],
-      ["المجموعة الثانية","تريد تجربة طريقة جديدة قد تكون أفضل لكنها غير مضمونة."],
-      ["الوقت","بقي أسبوع واحد فقط."],
-      ["النتيجة","الفشل سيؤثر على المشروع بالكامل."]
-    ],
-    question:"هل تختار إحدى الطريقتين أم تصمم حلًا ثالثًا؟ اشرح قرارك."
-  },
-  {
-    id:5,
-    category:"منطق",
-    difficulty:"سهل",
-    title:"الأرقام الأربعة",
-    description:"لديك أربعة أرقام مختلفة. أحدها لا ينتمي إلى المجموعة وفق قاعدة محددة.",
-    clues:[
-      ["الأرقام","8 — 12 — 18 — 25"],
-      ["ملاحظة","ثلاثة أرقام بينها علاقة رياضية واضحة."]
-    ],
-    question:"أي رقم تستبعده؟ وما القاعدة التي استخدمتها؟ وهل توجد قاعدة أخرى محتملة؟"
-  },
-  {
-    id:6,
-    category:"قرار",
-    difficulty:"صعب",
-    title:"الفرصة الوحيدة",
-    description:"أمامك فرصة مهمة لكنها تتطلب التضحية بمشروع تعمل عليه منذ فترة. لا توجد معلومات كافية لضمان نجاح أي من الخيارين.",
-    clues:[
-      ["الخيار الأول","الاستمرار في المشروع الحالي مع مخاطرة محدودة."],
-      ["الخيار الثاني","الانتقال إلى الفرصة الجديدة مع احتمال ربح أكبر وخطر أكبر."],
-      ["القيد","لا يمكنك تنفيذ الخيارين معًا في الوقت الحالي."]
-    ],
-    question:"ما القرار الذي ستتخذه؟ وما المعلومات التي تحتاجها قبل اتخاذ القرار النهائي؟"
-  }
+const CATEGORIES=['تفكير منطقي','إعلام ومعلومات','علم ومجتمع','أخلاق وفلسفة','تاريخ ومصادر','اقتصاد ومال','تقنية وخصوصية','قانون ومواطنة','صحة وسلوك','لغة وحجاج'];
+const cases=[
+{id:'c01',title:'هل تثبت التجارب الفردية فاعلية طريقة؟',cat:'علم ومجتمع',level:'مبتدئ',desc:'شخص جرّب طريقة للمذاكرة وتحسنت درجاته، فزعم أنها تنجح مع الجميع.',scenario:'نشر طالب مقطعًا يقول فيه: «استخدمت طريقة المذاكرة (أ) لمدة أسبوع، فارتفعت درجتي من 70 إلى 90؛ إذن هذه الطريقة ترفع درجات كل الطلاب».',questions:[
+{q:'ما نوع الادعاء الأساسي؟',opts:['ادعاء سببي عام مبني على تجربة فردية','حقيقة رياضية مثبتة','رأي ذوقي لا يمكن اختباره','استنتاج تاريخي من وثائق متعددة'],a:0,why:'الادعاء ينسب التحسن إلى الطريقة ويعممه على الجميع، بينما المعطى تجربة فرد واحد فقط.'},
+{q:'ما أهم نقص في الدليل؟',opts:['أن الطالب ذكر درجته بالأرقام','غياب مجموعة مقارنة وضبط عوامل أخرى','أن المقطع منشور على الإنترنت','أن التجربة استمرت أسبوعًا بالضبط'],a:1,why:'قد يكون التحسن ناتجًا عن وقت دراسة أطول أو اختبار أسهل أو عوامل أخرى. لا توجد مقارنة تعزل أثر الطريقة.'},
+{q:'أي معلومة ستقوّي الادعاء أكثر؟',opts:['زيادة عدد التعليقات المؤيدة','تجربة مضبوطة على عينة متنوعة مع مقارنة مناسبة','أن صاحب المقطع واثق من رأيه','تكرار القصة نفسها بصياغة مختلفة'],a:1,why:'الدراسة المضبوطة والعينة المناسبة تسمحان بتقدير الأثر وتقللان التفسيرات البديلة.'},
+{q:'ما الحكم الأدق حاليًا؟',opts:['ثبت أنها تنجح مع الجميع','ثبت أنها لا تنفع أحدًا','التجربة مشجعة لكنها لا تكفي لإثبات التعميم','لا يمكن بحث فاعلية أساليب المذاكرة علميًا'],a:2,why:'الإنصاف يقتضي عدم رفض التجربة الفردية، لكن لا يصح تحويلها إلى قانون عام.'}]},
+{id:'c02',title:'انتشار الخبر: هل يعني أنه صحيح؟',cat:'إعلام ومعلومات',level:'مبتدئ',desc:'رسالة متداولة على نطاق واسع تزعم صدور قرار رسمي عاجل.',scenario:'وصلتك رسالة تقول إن المدارس ستغلق غدًا، وأُعيد إرسالها آلاف المرات. لا يوجد رابط لمصدر رسمي أو تاريخ واضح.',questions:[
+{q:'ما الذي يثبته انتشار الرسالة؟',opts:['صحة الخبر حتمًا','أن الخبر مؤكد رسميًا','أن الرسالة انتشرت فقط، لا أنها صحيحة','أن كل من أعاد إرسالها كذب'],a:2,why:'الانتشار يقيس التداول ولا يثبت صحة المحتوى. الشعبية ليست بديلًا عن التحقق.'},
+{q:'ما أول خطوة تحقق مناسبة؟',opts:['إعادة إرسالها للتحذير','البحث عن إعلان في القنوات الرسمية ذات الصلة','الاعتماد على عدد المشاركات','تصديقها لأن صياغتها عاجلة'],a:1,why:'المصدر الرسمي الأصلي، مع التاريخ والسياق، أقوى من الرسائل المنقولة بلا إحالة.'},
+{q:'أي علامة تستدعي الحذر أكثر؟',opts:['وجود تاريخ ورابط رسمي يمكن فحصه','نقل نص القرار كاملًا من مصدر أصلي','طلب إعادة الإرسال فورًا مع غياب المصدر','تطابق الخبر مع إعلان رسمي منشور'],a:2,why:'الاستعجال في النشر مع غياب المصدر قد يكون أسلوبًا للضغط على المتلقي.'},
+{q:'إذا لم تجد تأكيدًا رسميًا، فما الصياغة الأدق؟',opts:['الخبر كاذب قطعًا','الخبر صحيح لأن الناس تتداوله','لم أجد ما يؤكده بعد، ويحتاج إلى تحقق','لن توجد إعلانات رسمية في مثل هذه الأمور'],a:2,why:'عدم العثور على تأكيد لا يساوي دائمًا إثبات الكذب؛ عبّر عن حدود ما تعرفه.'}]},
+{id:'c03',title:'الخلط بين الارتباط والسببية',cat:'علم ومجتمع',level:'متوسط',desc:'تزامن ارتفاع مبيعات المثلجات مع زيادة حالات الغرق.',scenario:'لاحظ محلل أن مبيعات المثلجات وحالات الغرق ترتفعان في أشهر الصيف، فاستنتج أن تناول المثلجات يسبب الغرق.',questions:[
+{q:'ما الخلل الأوضح في الاستنتاج؟',opts:['الخلط بين الارتباط والسببية','الاحتكام إلى السلطة','مهاجمة الشخص','الاحتكام إلى الجهل'],a:0,why:'قد يرتبط المتغيران بسبب ثالث، مثل ارتفاع الحرارة وزيادة السباحة؛ التزامن وحده لا يثبت السببية.'},
+{q:'ما التفسير البديل المعقول؟',opts:['الطقس الحار يزيد المثلجات والسباحة معًا','المثلجات تغيّر قوانين الفيزياء','كل من اشترى مثلجات تعرض للغرق','الأرقام لا يمكن أن تصف الواقع'],a:0,why:'الحرارة عامل محتمل يرفع المبيعات ويزيد التعرض للماء، وهو تفسير بديل يجب اختباره.'},
+{q:'ما الدليل الأنسب لفحص علاقة سببية؟',opts:['رسم بياني واحد بلا سياق','تحليل يضبط العوامل المؤثرة ويختبر تفسيرات بديلة','سؤال شخص يكره المثلجات','عدّ التعليقات على الخبر'],a:1,why:'يتطلب الاستدلال السببي تصميمًا وتحليلًا يأخذان العوامل المربكة في الحسبان.'},
+{q:'أي عبارة هي الأكثر دقة؟',opts:['المثلجات تسبب الغرق حتمًا','لا توجد أي علاقة ممكنة بينهما','تزامنهما لا يكفي لإثبات أن أحدهما سبب الآخر','كل ارتباط إحصائي وهمي'],a:2,why:'لا ننفي الارتباط المشاهد ولا نفسره تلقائيًا كسببية.'}]},
+{id:'c04',title:'هل الخبراء لا يخطئون؟',cat:'تفكير منطقي',level:'مبتدئ',desc:'متحدث مشهور في مجال ما يقدّم ادعاءً خارج تخصصه.',scenario:'قال صانع محتوى ناجح في مجال التقنية إن مكملًا غذائيًا يعالج مرضًا، وطلب من الجمهور تصديقه لأنه خبير مشهور.',questions:[
+{q:'ما السؤال الأول عن أهلية المصدر؟',opts:['كم عدد متابعيه؟','هل يملك خبرة ذات صلة بهذا الادعاء تحديدًا؟','هل يتحدث بثقة؟','هل يعجبني أسلوبه؟'],a:1,why:'الموثوقية مرتبطة بالتخصص والدليل في القضية المحددة، لا بالشهرة العامة.'},
+{q:'ما أقوى نوع من الأدلة لهذا الادعاء الصحي؟',opts:['تجربة شخص مشهور','إعلان تجاري جذاب','أدلة طبية موثوقة ومراجعات علمية مناسبة','عدد المشاهدات'],a:2,why:'الادعاءات الصحية تحتاج أدلة متخصصة عالية الجودة، لا شعبية المتحدث.'},
+{q:'هل يعني ضعف تخصص المتحدث أن الادعاء خاطئ؟',opts:['نعم، دائمًا','لا؛ نقيّم الادعاء بأدلته المستقلة','نعم إذا كان مشهورًا','لا حاجة إلى فحص أي دليل'],a:1,why:'رفض الحجة لمجرد هوية قائلها مغالطة أيضًا؛ افحص الدليل نفسه مع مراعاة خبرة المصدر.'},
+{q:'ما التصرف الأكثر مسؤولية؟',opts:['تجربة المكمل فورًا','نشر الادعاء باعتباره حقيقة','التحقق من الأدلة واستشارة مختص قبل قرار صحي','اعتبار الشهرة ضمانًا للسلامة'],a:2,why:'القرار الصحي لا ينبغي أن يبنى على محتوى غير موثق أو على الشهرة.'}]},
+{id:'c05',title:'اختياران فقط؟',cat:'لغة وحجاج',level:'مبتدئ',desc:'شخص يصوّر نقاشًا معقدًا كأنه لا يحتمل إلا موقفين.',scenario:'قال مدير لفريقه: «إما أن توافقوا على الخطة كما هي، أو أنكم لا تريدون نجاح المشروع».',questions:[
+{q:'ما الخلل في العبارة؟',opts:['ثنائية كاذبة؛ توجد خيارات ومواقف أخرى','استدلال رياضي صحيح','استشهاد بمصدر أولي','قياس تجريبي مضبوط'],a:0,why:'قد يوافق الفريق على الهدف ويرفض بعض تفاصيل الخطة أو يقترح بديلًا أفضل.'},
+{q:'أي رد يكشف الخيارات المخفية؟',opts:['لا أريد نجاح المشروع','يمكن دعم الهدف مع تعديل الخطة بناءً على المخاطر','أنت مخطئ في كل شيء','لن أناقش الأمر'],a:1,why:'الرد يبيّن أن الموافقة على الهدف لا تستلزم قبول كل وسيلة لتحقيقه.'},
+{q:'ما السؤال الذي يساعد على تقييم الخطة؟',opts:['من الأكثر صوتًا؟','ما البدائل والتكاليف والأدلة المتاحة؟','كم شخصًا صفق؟','هل يمكن منع أي اعتراض؟'],a:1,why:'تقييم الخيارات يحتاج معايير واضحة ومقارنة بين البدائل.'},
+{q:'هل وجود بديل ثالث يعني أن الخطة سيئة؟',opts:['نعم بالضرورة','لا؛ نحتاج مقارنة البدائل بالأدلة والمعايير','نعم لأن كل خطة لها بديل','لا يمكن تقييم الخطط'],a:1,why:'كشف الثنائية الكاذبة يصحح طريقة النقاش، لكنه لا يحسم جودة الخطة.'}]},
+{id:'c06',title:'حجة أم هجوم شخصي؟',cat:'لغة وحجاج',level:'متوسط',desc:'يُرفض رأي شخص بسبب صفة فيه بدل مناقشة دليله.',scenario:'اقترح باحث تحسين نظام النقل. ردّ معلق: «لا تأخذوا كلامه بجدية؛ هو صغير السن ولا يفهم شيئًا».',questions:[
+{q:'ما الذي فعله المعلّق؟',opts:['فنّد الأدلة بالأرقام','هاجم الشخص بدل مناقشة الحجة','قدّم تجربة قابلة للتكرار','عرض بدائل مدروسة'],a:1,why:'العمر وحده لا يبيّن هل اقتراح النقل صحيح؛ يلزم فحص الأدلة والحسابات.'},
+{q:'كيف يمكن تقييم الاقتراح بإنصاف؟',opts:['اختباره وفق بيانات النقل والتكلفة والسلامة','رفضه بسبب العمر','قبوله بسبب التعاطف مع الباحث','عدّ المؤيدين فقط'],a:0,why:'تُختبر جودة المقترح بمعايير مرتبطة بموضوعه.'},
+{q:'هل يمكن أن تكون خبرة صاحب الرأي ذات صلة؟',opts:['لا، أبدًا','نعم، كعامل عند تقييم المصدر، لكنها لا تغني عن فحص الحجة','نعم وتثبت النتيجة وحدها','فقط إذا كان مشهورًا'],a:1,why:'الخبرة قد تؤثر في وزن المصدر، لكنها ليست بديلًا مطلقًا عن الأدلة.'},
+{q:'أي رد هو الأفضل؟',opts:['أنت أيضًا لا تفهم','ما الدليل الذي يبيّن خطأ تقديرات الاقتراح؟','كل اقتراح من شاب صحيح','لن يحتاج النقل إلى بيانات'],a:1,why:'السؤال يعيد النقاش إلى المبررات القابلة للفحص بدل التصعيد الشخصي.'}]},
+{id:'c07',title:'الأرقام بلا مقام',cat:'اقتصاد ومال',level:'متوسط',desc:'إعلان يقول إن عدد العملاء تضاعف، لكنه لا يذكر العدد الأصلي.',scenario:'تعلن شركة أن مستخدمي خدمتها زادوا 100% خلال شهر، من دون ذكر عدد المستخدمين قبل الزيادة أو مقدار العينة.',questions:[
+{q:'ما المعلومة الناقصة الأهم؟',opts:['لون شعار الشركة','القيمة الأساسية وحجم المستخدمين والسياق','اسم المصمم','عدد الكلمات في الإعلان'],a:1,why:'الزيادة من 2 إلى 4 تختلف في دلالتها عن الزيادة من 200 ألف إلى 400 ألف.'},
+{q:'ما السؤال الذي ينبغي طرحه؟',opts:['هل النسبة تبدو كبيرة؟','ما العدد قبل الزيادة وبعدها، وكيف قيس؟','هل الإعلان جميل؟','هل الشركة تملك حسابًا اجتماعيًا؟'],a:1,why:'الأعداد المطلقة وطريقة القياس والسياق ضرورية لتفسير النسبة.'},
+{q:'هل زيادة 100% تعني أن الخدمة أصبحت الأفضل؟',opts:['نعم، بالضرورة','لا؛ النمو لا يثبت الجودة أو التفوق على المنافسين','نعم إن كان الإعلان رسميًا','لا تعني أي شيء إطلاقًا'],a:1,why:'النمو مؤشر واحد ولا يثبت وحده جودة المنتج أو رضا العملاء.'},
+{q:'ما الاستنتاج المتزن؟',opts:['الإعلان كاذب حتمًا','الخدمة هي الأفضل في السوق','هناك ادعاء نمو يحتاج أرقامًا وسياقًا للتحقق','لا يمكن قياس النمو'],a:2,why:'نعلّق الحكم حتى تتوافر المعلومات الضرورية.'}]},
+{id:'c08',title:'الخصوصية مقابل الراحة',cat:'تقنية وخصوصية',level:'متوسط',desc:'تطبيق يطلب صلاحيات واسعة مقابل خدمة بسيطة.',scenario:'تطبيق مصباح يدوي يطلب الوصول إلى جهات الاتصال والموقع والميكروفون. يقال لك إن منح كل الصلاحيات يجعل الاستخدام أسهل.',questions:[
+{q:'ما المبدأ الأهم لتقييم الصلاحيات؟',opts:['منح كل ما يطلبه التطبيق','مبدأ الحد الأدنى اللازم للصلاحيات','الثقة بكل تطبيق مجاني','تعطيل جميع تحديثات الهاتف'],a:1,why:'ينبغي أن تتناسب الصلاحية مع الوظيفة، وألا تجمع بيانات غير لازمة.'},
+{q:'ما السؤال الحاسم قبل الموافقة؟',opts:['هل لون التطبيق جميل؟','لماذا تحتاج كل صلاحية، وكيف ستُستخدم البيانات؟','هل لديه شعار؟','هل يطلب الإذن بسرعة؟'],a:1,why:'الغرض الواضح وسياسة البيانات وتناسب الصلاحيات عناصر أساسية للتقييم.'},
+{q:'ما الخيار الأكثر تحفظًا؟',opts:['منح جميع الصلاحيات دائمًا','رفض الصلاحيات غير الضرورية ومراجعة البدائل','إرسال كلمات المرور للدعم','إيقاف قفل الشاشة'],a:1,why:'تقليل الصلاحيات غير الضرورية يحد من جمع البيانات ومخاطر إساءة استخدامها.'},
+{q:'هل طلب صلاحية غريبة يثبت وجود تجسس؟',opts:['نعم، قطعًا','لا، لكنه مؤشر يستحق التحقيق ولا يثبت وحده النية','لا، فكل الصلاحيات آمنة','نعم إذا كان التطبيق مجانيًا'],a:1,why:'نميّز بين علامة تحذير ودليل قاطع على السلوك أو النية.'}]},
+{id:'c09',title:'الحكم من حالة واحدة',cat:'تفكير منطقي',level:'مبتدئ',desc:'تجربة سيئة واحدة تتحول إلى حكم على فئة كاملة.',scenario:'تأخر طلب شخص من متجر مرة واحدة، فكتب: «كل المتاجر الإلكترونية لا تحترم العملاء».',questions:[
+{q:'ما نوع الخطأ؟',opts:['تعميم متسرع','استدلال استنباطي سليم','مقارنة عادلة','استقراء واسع'],a:0,why:'حادثة واحدة لا تكفي للحكم على جميع المتاجر.'},
+{q:'ما البيانات التي تجعل التقييم أقوى؟',opts:['تجربة واحدة فقط','عينة متنوعة من الطلبات ومعدلات التأخير ومعايير المقارنة','رأي غاضب إضافي','عدد الإعجابات بالشكوى'],a:1,why:'العينة والسياق ومعدل الحدوث مقارنةً بالمتوقع تساعد على تقدير مدى شيوع المشكلة.'},
+{q:'أي صياغة تناسب الدليل المتاح؟',opts:['كل المتاجر سيئة','واجهت تأخيرًا في هذا الطلب، وأحتاج بيانات أكثر لتعميم الحكم','لا تحدث أخطاء في المتاجر','التأخير يثبت الاحتيال'],a:1,why:'الصياغة تحافظ على الواقعة دون تعميم أو اتهام غير مثبت.'},
+{q:'هل ينبغي تجاهل تجربة العميل؟',opts:['نعم لأنها حالة واحدة','لا؛ تؤخذ بجدية كواقعة لكنها لا تكفي وحدها لتعميم الحكم','نعم ما لم تكن كل الطلبات متأخرة','نعم إذا كان المتجر مشهورًا'],a:1,why:'الواقعة مهمة للتحقيق وحل المشكلة، لكنها لا تثبت ادعاءً شاملًا.'}]},
+{id:'c10',title:'من المسؤول عن النتيجة؟',cat:'أخلاق وفلسفة',level:'متوسط',desc:'موازنة المسؤولية الفردية والعوامل المحيطة دون اختزال.',scenario:'فشل مشروع جماعي، فحمّل قائد الفريق شخصًا واحدًا المسؤولية كاملة، مع أن المهام والموارد والتوجيهات كانت غير واضحة.',questions:[
+{q:'ما أول خطوة عادلة؟',opts:['تحديد مذنب قبل سماع التفاصيل','تفكيك القرارات والأدوار والموارد والتواصل','تجاهل النتائج','افتراض أن القائد محق'],a:1,why:'التحليل العادل يدرس مساهمات الأفراد والنظام المحيط بدل اختزال النتيجة في شخص واحد.'},
+{q:'ما الفرق بين تفسير الخطأ وتبريره؟',opts:['لا فرق بينهما','التفسير يحدد العوامل؛ والتبرير يدّعي أن الفعل مقبول رغمها','التفسير يعني إعفاء الجميع','التبرير يعني جمع الأدلة'],a:1,why:'فهم أسباب الفشل يساعد على الوقاية، لكنه لا يلغي تلقائيًا المسؤولية.'},
+{q:'أي دليل يساعد في تقدير المسؤوليات؟',opts:['شائعة بعد الفشل','توزيع المهام والقرارات والتواصل والموارد الموثقة','انطباع واحد','رتبة الشخص فقط'],a:1,why:'السجلات والوقائع ذات الصلة أقوى من الشائعات أو المكانة.'},
+{q:'ما الحكم الأقرب للإنصاف؟',opts:['شخص واحد مسؤول دائمًا','لا أحد مسؤول أبدًا','تُحدد المسؤولية بحسب الأفعال والصلاحيات والظروف المثبتة','الفشل يثبت سوء النية'],a:2,why:'المسؤولية تحتاج تقديرًا متناسبًا مع الأدلة والصلاحيات والظروف.'}]},
+{id:'c11',title:'هل غياب الدليل دليل غياب؟',cat:'تفكير منطقي',level:'متوسط',desc:'الاستدلال من عدم العثور على معلومة إلى استحالة وجودها.',scenario:'بحث فريق في قاعدة بيانات محدودة ولم يجد سجلًا لحدث معين، فقرر أن الحدث لم يقع قطعًا.',questions:[
+{q:'متى يكون عدم العثور على دليل أقوى؟',opts:['عندما تكون قاعدة البيانات ناقصة','عندما يكون البحث شاملًا وموثوقًا وكان الحدث لو وقع يُتوقع تسجيله','عندما يكرر الفريق رأيه','عندما لا يحب الفريق الفرضية'],a:1,why:'غياب السجل يصبح أكثر دلالة إذا كان النظام يسجل الأحداث عادةً وكان البحث قادرًا على العثور عليها.'},
+{q:'ما الاحتمال البديل؟',opts:['أن السجل قد يكون مفقودًا أو خارج نطاق البحث','أن كل السجلات كاذبة','أن البحث يثبت النقيض دائمًا','أنه لا توجد احتمالات بديلة'],a:0,why:'نقص التغطية أو فقد البيانات يفسر عدم العثور دون أن يثبت عدم وقوع الحدث.'},
+{q:'ما العبارة الأدق؟',opts:['لم يقع الحدث قطعًا','لا يوجد أي سجل في قاعدة البيانات التي فُحصت، ضمن حدودها','ثبت أن الحدث مستحيل','لا حاجة إلى توثيق البحث'],a:1,why:'هذه العبارة تصف ما تم فحصه فعلًا ولا تتجاوز حدود البيانات.'},
+{q:'ما الخطوة التالية؟',opts:['إغلاق البحث فورًا','فحص مصادر مستقلة وحدود التغطية ومعايير التسجيل','إخفاء النتيجة','افتراض النية السيئة'],a:1,why:'التحقق من مصادر أخرى ونطاق البيانات يقلل احتمال الاستنتاج الخاطئ.'}]},
+{id:'c12',title:'هل المقارنة عادلة؟',cat:'اقتصاد ومال',level:'متوسط',desc:'مقارنة نتائج جهتين دون مراعاة اختلاف الحجم والظروف.',scenario:'تقول مدرسة إن نتائجها أفضل من مدرسة أخرى لأنها حققت عددًا أكبر من الناجحين، لكنها تستقبل عددًا أكبر بكثير من الطلاب.',questions:[
+{q:'ما الذي ينبغي مقارنته؟',opts:['العدد المطلق فقط','معدلات النجاح مع مراعاة حجم الطلاب والسياق','المباني فقط','عدد المنشورات'],a:1,why:'العدد المطلق يتأثر بحجم المجموعة؛ المعدلات والسياق يعطيان مقارنة أعدل.'},
+{q:'ما عامل آخر قد يؤثر في المقارنة؟',opts:['اختلاف ظروف الطلاب ومعايير الاختبار','لون الزي المدرسي فقط','اسم المدرسة وحده','عدد الأحرف في اسمها'],a:0,why:'قد تختلف الظروف السابقة والدعم والمعايير، ولذلك يجب تفسير المعدلات بحذر.'},
+{q:'هل معدل النجاح وحده يكفي للحكم على جودة المدرسة؟',opts:['نعم دائمًا','لا؛ هو مؤشر مهم لكنه لا يصف كل أبعاد الجودة','لا قيمة له مطلقًا','نعم إذا كانت المدرسة أكبر'],a:1,why:'الجودة تشمل أبعادًا متعددة، ويجب تحديد ما الذي نريد قياسه.'},
+{q:'ما النتيجة الصحيحة من المعلومات الحالية؟',opts:['المدرسة الأكبر أفضل حتمًا','المقارنة غير كافية قبل حساب المعدلات وفهم السياق','المدرسة الثانية فاشلة','لا يمكن مقارنة أي مدرستين'],a:1,why:'المعلومات الحالية لا تكفي لإصدار حكم عادل.'}]},
+{id:'c13',title:'تفسير نص في سياقه',cat:'تاريخ ومصادر',level:'متقدم',desc:'اقتباس تاريخي قصير يُستخدم لإثبات موقف معاصر واسع.',scenario:'نُشر سطر مقتطع من رسالة تاريخية، واستُخدم لإثبات موقف الكاتب النهائي، من دون إظهار بقية الرسالة أو تاريخها.',questions:[
+{q:'ما المشكلة المنهجية الأساسية؟',opts:['الاقتباس قصير بالضرورة','اقتطاع النص قد يحذف السياق الذي يغيّر معناه','كل الرسائل التاريخية مزيفة','الخط القديم يمنع فهم النص'],a:1,why:'المعنى يتأثر بالسياق، والمخاطب، والظرف التاريخي، وما يسبق العبارة ويلحقها.'},
+{q:'ما المصدر الذي ينبغي الرجوع إليه؟',opts:['صورة الاقتباس المتداولة فقط','النص الكامل أو نسخة موثوقة مع بيانات المصدر','تعليقات مجهولة','عنوان منشور حديث فقط'],a:1,why:'الرجوع إلى النص الكامل وبياناته يسمح بفحص الأصالة والسياق.'},
+{q:'إذا تعارضت نسختان، ماذا نفعل؟',opts:['اختيار ما يوافق الرأي','مقارنة أصل النسخ وتاريخها ومنهج تحقيقها','إلغاء كل المصادر','الاعتماد على الأكثر تداولًا'],a:1,why:'تُفحص سلسلة النقل وموثوقية النسخ وطرق التحقيق بدل الانتقاء.'},
+{q:'ما الحكم الأكثر انضباطًا قبل فحص السياق؟',opts:['الاقتباس يحسم موقف الكاتب كله','لا يمكن استخلاص معنى موثوق من العبارة وحدها دون فحص السياق','الكاتب قصد ما يقوله الناشر حتمًا','الاقتباس كاذب قطعًا'],a:1,why:'الحكم المعلق مؤقتًا أفضل من نسبة موقف شامل استنادًا إلى جزء مقتطع.'}]},
+{id:'c14',title:'هل كل مخالفة قاعدة أخلاقية؟',cat:'أخلاق وفلسفة',level:'متقدم',desc:'تمييز القانون والعرف والأخلاق عند مناقشة موقف ملتبس.',scenario:'خالف موظف عرفًا اجتماعيًا غير مكتوب ليبلغ عن خطر موثق يهدد سلامة الناس. قال زميله إن مخالفة العرف تثبت أنه تصرف بلا أخلاق.',questions:[
+{q:'ما الخلط المحتمل في الاعتراض؟',opts:['اعتبار العرف والأخلاق والقانون شيئًا واحدًا دائمًا','التمييز بين المفاهيم','فحص الضرر المتوقع','تحديد الأدلة'],a:0,why:'قد تتفق الأعراف والقوانين والأخلاق أو تختلف؛ مخالفة العرف لا تحسم وحدها التقييم الأخلاقي.'},
+{q:'ما الاعتبارات الأكثر صلة بالتقييم؟',opts:['رد فعل الزملاء فقط','الخطر، والضرر، والواجبات، والتناسب، والبدائل المتاحة','مدى شيوع العرف وحده','شخصية الموظف فقط'],a:1,why:'تقييم الحالة يحتاج النظر إلى النتائج والواجبات والوسائل والبدائل.'},
+{q:'ما السؤال الذي يختبر تناسب الفعل؟',opts:['هل أحب الموظف؟','هل كان البلاغ ضروريًا وموثوقًا وهل وُجد بديل أقل ضررًا؟','هل خالف رأي الأغلبية؟','هل كان التصرف مفاجئًا؟'],a:1,why:'الضرورة والموثوقية والتناسب تساعد في تقدير أخلاقية التصرف.'},
+{q:'ما الاستنتاج المنضبط؟',opts:['كل مخالفة عرفية غير أخلاقية','كل مخالفة مبررة تلقائيًا','لا يكفي خرق العرف وحده؛ يلزم تقييم الوقائع والمبادئ ذات الصلة','القصد وحده يحسم كل شيء'],a:2,why:'لا تحسم التسمية وحدها الحكم؛ ينبغي فحص الظروف والمبادئ والأدلة.'}]},
+{id:'c15',title:'السبب الوحيد أم شبكة أسباب؟',cat:'علم ومجتمع',level:'متقدم',desc:'ظاهرة اجتماعية معقدة تُنسب إلى عامل واحد دون تحليل.',scenario:'زعم مقال أن سبب ضعف القراءة لدى الشباب هو الهواتف وحدها، ولم يناقش المدرسة أو توفر الكتب أو الوقت أو العادات الأسرية.',questions:[
+{q:'ما الخطر في هذا التفسير؟',opts:['اختزال ظاهرة متعددة العوامل في سبب واحد دون دليل كافٍ','استخدام كلمة الشباب','ذكر الهواتف','الاهتمام بالقراءة'],a:0,why:'الظواهر الاجتماعية غالبًا متعددة العوامل، ويجب اختبار الوزن النسبي لكل عامل.'},
+{q:'ما البحث الذي يساعد أكثر؟',opts:['مقابلة شخص واحد فقط','دراسة تقيس عوامل متعددة وتختبر علاقتها بالقراءة','تكرار العنوان','اختيار سبب مألوف مسبقًا'],a:1,why:'قياس العوامل المختلفة يساعد على التمييز بين الارتباط والأثر النسبي.'},
+{q:'هل يمكن أن يكون الهاتف عاملًا مؤثرًا؟',opts:['لا، لأن هناك عوامل أخرى','نعم، لكن وجود عوامل أخرى يستلزم تقدير أثره لا افتراض أنه الوحيد','نعم، وهذا يثبت أنه السبب الوحيد','لا يمكن دراسة العادات'],a:1,why:'وجود تفسيرات متعددة لا ينفي احتمال مساهمة الهاتف؛ بل يدعو إلى تقديرها.'},
+{q:'أي خاتمة أكثر علمية؟',opts:['الهاتف وحده سبب المشكلة قطعًا','الهاتف لا يؤثر أبدًا','قد يكون الهاتف عاملًا ضمن عوامل متعددة، ويحتاج وزنه إلى دليل','لا توجد حلول ممكنة'],a:2,why:'الخاتمة المتوازنة تصوغ فرضية قابلة للاختبار ولا تتجاوز البيانات.'}]},
+{id:'c16',title:'قراءة عقد قبل الموافقة',cat:'قانون ومواطنة',level:'متوسط',desc:'وعد شفهي يبدو مطمئنًا بينما النص المكتوب يتضمن شرطًا مختلفًا.',scenario:'قال مندوب إن الاشتراك يمكن إلغاؤه في أي وقت، لكن العقد يحتوي على رسوم إلغاء مبكر. لا تعرف أي الشروط يسري قانونًا في بلدك.',questions:[
+{q:'ما الخطوة الأولى الأكثر حكمة؟',opts:['تجاهل العقد اعتمادًا على الوعد','قراءة الشروط المكتوبة وطلب توضيح موثق قبل الموافقة','التوقيع لأن المندوب لطيف','افتراض أن كل الشروط غير قانونية'],a:1,why:'ينبغي فهم الالتزامات المكتوبة وتوثيق التوضيحات قبل الموافقة، مع مراعاة القانون المحلي.'},
+{q:'ما الذي لا يمكن الجزم به من السيناريو وحده؟',opts:['وجود تعارض ظاهري بين الوعد والنص','أن الرسوم قانونية أو غير قانونية في كل بلد','أن توضيح الشرط مهم','أن النص يحتاج إلى مراجعة'],a:1,why:'قانونية الشرط تعتمد على الولاية القضائية والوقائع والنظام المنطبق.'},
+{q:'ما أفضل سؤال تطلب إجابته كتابة؟',opts:['هل تحبون عملاءكم؟','هل توجد رسوم إلغاء؟ وما شروطها واستثناءاتها؟','هل العقد طويل؟','هل يمكنني تجاهل الصفحات؟'],a:1,why:'السؤال المحدد يكشف الالتزام المالي وشروط تطبيقه.'},
+{q:'إذا بقي خلاف جوهري، فما المسار الأنسب؟',opts:['توقيع العقد ثم التخمين','طلب مشورة جهة حماية المستهلك أو مختص محلي','نشر بيانات الموظف الشخصية','اعتبار كل العقود باطلة'],a:1,why:'الجهة المختصة أو المستشار المحلي يستطيع تفسير الحقوق وفق القانون المطبق.'}]},
+{id:'c17',title:'الذكاء الاصطناعي والإجابة الواثقة',cat:'تقنية وخصوصية',level:'متقدم',desc:'نظام ذكي يقدّم إجابة مقنعة لكنها قد تحتوي على معلومات غير صحيحة.',scenario:'أعطى نظام ذكاء اصطناعي إجابة مرتبة وواثقة مع أسماء كتب واقتباسات. لم تستطع العثور على بعض العناوين في فهارس المكتبات.',questions:[
+{q:'كيف ينبغي التعامل مع المراجع المذكورة؟',opts:['قبولها لأن الإجابة منظمة','التحقق من وجود كل مرجع والاقتباس في مصدر مستقل','افتراض أن كل المراجع مختلقة','تقييمها من جمال التنسيق'],a:1,why:'قد ينتج النظام تفاصيل غير صحيحة؛ ينبغي فحص المصادر الأصلية بدل الثقة في الصياغة.'},
+{q:'ما الذي تعنيه الثقة في أسلوب الإجابة؟',opts:['أن المحتوى صحيح حتمًا','أن الأسلوب ودرجة اليقين لا يضمنان صحة المحتوى','أن المراجع حقيقية','أن التحقق غير ضروري'],a:1,why:'اللغة الواثقة ليست دليلًا مستقلًا على صحة المعلومة.'},
+{q:'ما الاستخدام الأنسب للنظام في هذه الحالة؟',opts:['اعتماد الاقتباسات دون فحص','استخدامه لتوليد فرضيات ثم التحقق من المصادر الأولية','نسب كل خطأ إلى مستخدمه','منعه من اقتراح أي أفكار'],a:1,why:'يمكن أن يساعد في الاستكشاف، لكن التوثيق يتطلب تحققًا مستقلًا.'},
+{q:'ما الاستنتاج المتزن؟',opts:['الذكاء الاصطناعي مفيد دائمًا بلا مراجعة','كل مخرجاته خاطئة','المخرجات تحتاج تحققًا، خصوصًا الأسماء والاقتباسات والادعاءات الدقيقة','تنسيق الإجابة يكفي لإثباتها'],a:2,why:'درجة التحقق ينبغي أن تناسب أهمية الادعاء وإمكان فحصه.'}]},
+{id:'c18',title:'التضحية الصغيرة أم القرار الأفضل؟',cat:'اقتصاد ومال',level:'متقدم',desc:'مبلغ صُرف سابقًا يؤثر في قرار الاستمرار رغم تغيّر المعطيات.',scenario:'أنفقت جهة مبلغًا كبيرًا على مشروع، ثم ظهرت بيانات جديدة تشير إلى أن إكماله سيكلف أكثر من فائدته المتوقعة. يقول المدير: «لا يمكننا التوقف بعد كل ما دفعناه».',questions:[
+{q:'ما الانحياز المحتمل؟',opts:['مغالطة التكلفة الغارقة','الخلط بين الارتباط والسببية','التعميم من عينة','الاحتكام إلى الشهرة'],a:0,why:'المبلغ الذي لا يمكن استرداده لا ينبغي وحده أن يحدد القرار المستقبلي؛ المهم التكاليف والفوائد المقبلة.'},
+{q:'ما الأساس الأنسب لقرار الاستمرار؟',opts:['حجم الإنفاق السابق وحده','مقارنة التكاليف والمنافع المستقبلية والبدائل','الخوف من الاعتراف بالخطأ','رأي شخص واحد'],a:1,why:'القرار العقلاني يقيّم ما سيحدث من الآن فصاعدًا مع مراعاة الالتزامات ذات الصلة.'},
+{q:'هل يعني هذا تجاهل كل ما صُرف؟',opts:['نعم، تجاهل المعلومات كلها','لا؛ يمكن أن يقدّم الإنفاق السابق معلومات عن المشروع، لكنه ليس مبررًا وحده للاستمرار','لا، يجب الاستمرار دائمًا','نعم، كل البيانات السابقة عديمة القيمة'],a:1,why:'قد تكشف البيانات السابقة عن حقائق مهمة، لكن المال غير القابل للاسترداد لا يُعامل كمنفعة مستقبلية.'},
+{q:'ما السؤال الحاسم؟',opts:['كم أنفقنا بالفعل فقط؟','لو كنا نقرر اليوم من دون الإنفاق الماضي، فهل نختار الاستمرار بناءً على الأدلة الحالية؟','من سيبدو مخطئًا؟','هل المشروع مشهور؟'],a:1,why:'هذا الاختبار يساعد على فصل القرار المستقبلي عن الرغبة في تبرير ما سبق.'}]},
+{id:'c19',title:'اختبار الصورة المضللة',cat:'إعلام ومعلومات',level:'متوسط',desc:'رسم بياني يبدأ محوره من قيمة غير صفرية فيضخّم فرقًا بصريًا.',scenario:'يعرض تقرير عمودين لقيمتين 96 و100، لكن المحور يبدأ عند 95، فتبدو الفجوة هائلة بصريًا.',questions:[
+{q:'ما التأثير المحتمل لاختيار المحور؟',opts:['قد يضخّم الفرق المرئي مقارنة بحجمه العددي','يثبت أن البيانات مزورة حتمًا','لا يؤثر في أي قارئ','يغيّر القيم الحقيقية تلقائيًا'],a:0,why:'قصّ المحور قد يجعل فروقًا صغيرة تبدو ضخمة، بحسب نوع الرسم والسياق.'},
+{q:'ما الفحص المناسب؟',opts:['قراءة الألوان فقط','فحص مقياس المحور والقيم الفعلية وطريقة العرض','عدّ عدد الأعمدة','الاعتماد على عنوان التقرير'],a:1,why:'قراءة المقياس والأرقام الأصلية تكشف حجم الفارق الفعلي.'},
+{q:'هل كل محور لا يبدأ من الصفر خداع؟',opts:['نعم دائمًا','لا؛ قد يكون مناسبًا لبعض الرسوم، لكن ينبغي فهم أثره وتوضيحه','نعم إذا كانت القيم متقاربة','لا يجوز فحص الرسوم'],a:1,why:'يعتمد الحكم على نوع الرسم والغرض، مع ضرورة عدم تضليل القارئ بصريًا.'},
+{q:'ما العبارة الأكثر دقة؟',opts:['القيم 96 و100 تختلف بمقدار 50%','القيم تختلف بأربع وحدات، وقد يضخم الرسم الانطباع عن الفرق','الرسم يثبت الاحتيال','لا يمكن قراءة القيم'],a:1,why:'الفارق العددي أربع وحدات، بينما المقياس المختار قد يغيّر الانطباع البصري.'}]},
+{id:'c20',title:'القاعدة والاستثناء',cat:'لغة وحجاج',level:'متقدم',desc:'استخدام استثناء واحد لإلغاء قاعدة عامة دون تقدير مدى الاستثناء.',scenario:'توجد قاعدة تنظيمية عامة، لكن شخصًا يذكر حالة استثنائية واحدة ويقول إن القاعدة لا قيمة لها مطلقًا.',questions:[
+{q:'ما الذي لا تثبته حالة استثنائية واحدة؟',opts:['أن الاستثناء حدث في هذه الحالة','أن القاعدة بلا قيمة في جميع الحالات','أن القاعدة قد تحتاج إلى استثناءات محددة','أن السياق مهم'],a:1,why:'الاستثناء قد يحدّد نطاق القاعدة أو يكشف عيبًا فيها، لكنه لا يبطلها تلقائيًا في كل الحالات.'},
+{q:'ما السؤال التحليلي الأنسب؟',opts:['هل أحب القاعدة؟','ما نطاق القاعدة، وما مبرر الاستثناء، وهل توجد حالات مماثلة؟','من ذكر المثال أولًا؟','هل المثال مثير؟'],a:1,why:'يجب اختبار نطاق القاعدة واتساق تطبيق الاستثناءات.'},
+{q:'متى يمكن أن يكشف الاستثناء مشكلة حقيقية؟',opts:['أبدًا','عندما يكشف تناقضًا أو أثرًا غير مبرر أو نمطًا من الحالات','كلما ذكره شخص مشهور','إذا كان مثالًا عاطفيًا فقط'],a:1,why:'الاستثناء قد يكون دليلًا مهمًا إذا كشف خللًا متكررًا أو تعارضًا مع مبرر القاعدة.'},
+{q:'ما الحكم الأفضل؟',opts:['القاعدة صحيحة دائمًا','القاعدة باطلة دائمًا','نفحص مبررات القاعدة ونطاقها والاستثناءات قبل الحكم','الاستثناءات لا تهم'],a:2,why:'التقييم المتوازن لا يقدّس القاعدة ولا يهدمها بمثال واحد دون تحليل.'}]}
 ];
-
-let state = JSON.parse(localStorage.getItem("mihakk_state") || "null") || {
-  solved:[],
-  scores:[],
-  streak:0,
-  lastDate:null,
-  dark:true
-};
-
-let currentCase = null;
-let currentStep = 1;
-let selectedChoice = null;
-
-function save(){
-  localStorage.setItem("mihakk_state",JSON.stringify(state));
-}
-
-function $(id){
-  return document.getElementById(id);
-}
-
-function showScreen(id){
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-  $(id).classList.add("active");
-
-  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
-
-  if(id==="homeScreen") $("navHome").classList.add("active");
-  if(id==="casesScreen") $("navCases").classList.add("active");
-  if(id==="historyScreen") $("navHistory").classList.add("active");
-
-  if(id==="casesScreen") renderAllCases();
-  if(id==="historyScreen") renderHistory();
-
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function renderCases(list=cases,target="caseGrid"){
-  const container=$(target);
-  container.innerHTML="";
-
-  if(!list.length){
-    container.innerHTML='<div class="empty">لا توجد قضايا في هذا التصنيف.</div>';
-    return;
-  }
-
-  list.forEach(c=>{
-    const solved=state.solved.includes(c.id);
-
-    container.innerHTML+=`
-      <article class="case-card">
-        <div class="case-top">
-          <span class="badge">${c.category}</span>
-          <span class="badge">${c.difficulty}</span>
-        </div>
-        <h4>${c.title}</h4>
-        <p>${c.description}</p>
-        <div class="case-meta">
-          <span>▣ ${c.clues.length} أدلة</span>
-          <span>${solved?"✓ محلولة":"لم تُحل بعد"}</span>
-        </div>
-        <div class="actions">
-          <button class="primary" onclick="openCase(${c.id})">
-            ${solved?"إعادة تحليل":"ابدأ القضية"}
-          </button>
-        </div>
-      </article>
-    `;
-  });
-
-  if(target==="caseGrid"){
-    $("caseCount").textContent=`${list.length} قضايا`;
-  }
-}
-
-function renderAllCases(){
-  renderCases(cases,"allCases");
-}
-
-function filterCases(category){
-  showScreen("homeScreen");
-  renderCases(cases.filter(c=>c.category===category));
-}
-
-function openCase(id){
-  currentCase=cases.find(c=>c.id===id);
-  currentStep=1;
-  selectedChoice=null;
-  renderCase();
-  showScreen("caseScreen");
-}
-
-function renderCase(){
-  const c=currentCase;
-
-  $("caseContent").innerHTML=`
-    <div class="case-header">
-      <span class="badge">${c.category}</span>
-      <h2>${c.title}</h2>
-      <p>${c.description}</p>
-
-      <div class="info-box">
-        <strong>طريقة اللعب</strong><br>
-        اقرأ الأدلة بهدوء، لا تتسرع في الحكم، ثم اكتب قرارك مع الأسباب التي بنيت عليها استنتاجك.
-      </div>
-    </div>
-
-    <div class="progress">
-      <span style="width:${currentStep===1?33:currentStep===2?66:100}%"></span>
-    </div>
-
-    ${currentStep===1?renderClues(c):""}
-    ${currentStep===2?renderDecision(c):""}
-    ${currentStep===3?renderResult(c):""}
-  `;
-}
-
-function renderClues(c){
-  return `
-    <div class="section-title">
-      <h3>الأدلة</h3>
-      <span>${c.clues.length} أدلة</span>
-    </div>
-
-    <div class="clues">
-      ${c.clues.map((x,i)=>`
-        <div class="clue">
-          <strong>${i+1}. ${x[0]}</strong>
-          <p>${x[1]}</p>
-        </div>
-      `).join("")}
-    </div>
-
-    <div class="actions">
-      <button class="primary" onclick="nextStep()">انتقلت إلى التحليل ←</button>
-    </div>
-  `;
-}
-
-function renderDecision(c){
-  return `
-    <div class="question">
-      <h3>${c.question}</h3>
-      <textarea id="answerBox" placeholder="اكتب قرارك بالتفصيل... ما الذي ستفعله؟ ولماذا؟"></textarea>
-      <div class="actions">
-        <button class="secondary" onclick="previousStep()">← الأدلة</button>
-        <button class="primary" onclick="submitAnswer()">تحليل قراري</button>
-      </div>
-    </div>
-  `;
-}
-
-function renderResult(c){
-  const score=calculateScore();
-  const answer=localStorage.getItem("mihakk_current_answer")||"";
-
-  return `
-    <div class="result">
-      <div class="score">
-        <strong>${score}</strong>
-        <span>مؤشر قوة القرار</span>
-      </div>
-
-      <div class="analysis-grid">
-        <div class="analysis">
-          <label>فهم المشكلة</label>
-          <strong>${Math.min(100,score+3)}%</strong>
-        </div>
-        <div class="analysis">
-          <label>تحليل الأدلة</label>
-          <strong>${Math.max(0,score-2)}%</strong>
-        </div>
-        <div class="analysis">
-          <label>وضوح القرار</label>
-          <strong>${Math.min(100,score+1)}%</strong>
-        </div>
-        <div class="analysis">
-          <label>إدارة المخاطر</label>
-          <strong>${Math.max(0,score-5)}%</strong>
-        </div>
-      </div>
-
-      <div class="info-box">
-        <strong>ملاحظة</strong><br>
-        لا توجد إجابة واحدة صحيحة بالضرورة. قوة الحل تعتمد على منطقك، والأدلة التي استخدمتها، وقدرتك على تبرير قرارك.
-      </div>
-
-      <div class="actions">
-        <button class="primary" onclick="finishCase()">حفظ النتيجة</button>
-        <button class="secondary" onclick="showScreen('homeScreen')">إنهاء</button>
-      </div>
-    </div>
-  `;
-}
-
-function calculateScore(){
-  const answer=localStorage.getItem("mihakk_current_answer")||"";
-  const words=answer.trim().split(/\s+/).filter(Boolean).length;
-
-  let score=45;
-
-  if(words>=10) score+=10;
-  if(words>=25) score+=10;
-  if(words>=45) score+=8;
-
-  const keywords=[
-    "لأن","سبب","دليل","خطر","احتمال","أولًا",
-    "ثم","إذا","لكن","معلومات","أتحقق","أراجع"
-  ];
-
-  keywords.forEach(k=>{
-    if(answer.includes(k)) score+=2;
-  });
-
-  return Math.min(98,score);
-}
-
-function nextStep(){
-  currentStep=2;
-  renderCase();
-}
-
-function previousStep(){
-  currentStep=1;
-  renderCase();
-}
-
-function submitAnswer(){
-  const answer=$("answerBox").value.trim();
-
-  if(answer.length<15){
-    toast("اكتب قرارًا أوضح قبل التحليل.");
-    return;
-  }
-
-  localStorage.setItem("mihakk_current_answer",answer);
-  currentStep=3;
-  renderCase();
-}
-
-function finishCase(){
-  const score=calculateScore();
-  const today=new Date().toISOString().slice(0,10);
-
-  if(!state.solved.includes(currentCase.id)){
-    state.solved.push(currentCase.id);
-    state.scores.push(score);
-
-    if(state.lastDate){
-      const old=new Date(state.lastDate);
-      const now=new Date(today);
-      const diff=Math.round((now-old)/86400000);
-      state.streak=diff===1?state.streak+1:1;
-    }else{
-      state.streak=1;
-    }
-
-    state.lastDate=today;
-    save();
-  }
-
-  updateStats();
-  toast("تم حفظ القضية في سجلك.");
-  setTimeout(()=>showScreen("historyScreen"),500);
-}
-
-function renderHistory(){
-  const box=$("historyList");
-
-  if(!state.solved.length){
-    box.innerHTML=`
-      <div class="empty">
-        لم تحل أي قضية بعد.<br>
-        ابدأ أول قضية وابنِ سجل تفكيرك.
-      </div>
-    `;
-    return;
-  }
-
-  box.innerHTML=state.solved.map((id,i)=>{
-    const c=cases.find(x=>x.id===id);
-    const score=state.scores[i]||0;
-
-    return `
-      <div class="history-item">
-        <strong>${c?c.title:"قضية"}</strong>
-        <span>${c?c.category:""} · مؤشر القرار ${score}%</span>
-      </div>
-    `;
-  }).reverse().join("");
-}
-
-function updateStats(){
-  $("solvedCount").textContent=state.solved.length;
-
-  if(state.scores.length){
-    const avg=Math.round(
-      state.scores.reduce((a,b)=>a+b,0)/state.scores.length
-    );
-    $("thinkingScore").textContent=avg+"%";
-  }else{
-    $("thinkingScore").textContent="—";
-  }
-
-  $("streakCount").textContent=state.streak;
-}
-
-function toast(message){
-  const t=$("toast");
-  t.textContent=message;
-  t.classList.add("show");
-
-  setTimeout(()=>t.classList.remove("show"),2200);
-}
-
-function toggleTheme(){
-  state.dark=!state.dark;
-
-  if(state.dark){
-    document.documentElement.style.setProperty("--bg","#0b1020");
-    document.documentElement.style.setProperty("--surface","#11182b");
-    $("themeBtn").textContent="☾";
-  }else{
-    document.documentElement.style.setProperty("--bg","#f4f6fb");
-    document.documentElement.style.setProperty("--surface","#ffffff");
-    document.documentElement.style.setProperty("--surface2","#eef1f7");
-    document.documentElement.style.setProperty("--text","#172033");
-    document.documentElement.style.setProperty("--muted","#68748a");
-    $("themeBtn").textContent="☀";
-  }
-
-  save();
-}
-
-renderCases();
-renderAllCases();
-updateStats();
-</script>
-
-</body>
-</html>
+const STORE='mihakk-v1-data';let db=loadDB(),current=null,answers=[],qIndex=0,checked={},activePage='home';
+function loadDB(){try{return JSON.parse(localStorage.getItem(STORE))||{history:[],best:{}}}catch{return{history:[],best:{}}}}function saveDB(){try{localStorage.setItem(STORE,JSON.stringify(db))}catch{toast('تعذّر الحفظ المحلي؛ صدّر نسخة احتياطية.')}}function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function toast(t){let el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2300)}function showPage(p){activePage=p;document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+p));document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===p));if(p==='library')renderLibrary();if(p==='progress')renderProgress();if(p==='home')renderHome();window.scrollTo({top:0,behavior:'smooth'})}
+function card(c){let done=db.best[c.id],pct=done?Math.round(done.score/done.total*100):null;return `<article class="${activePage==='home'?'casecard':'librarycard'}" onclick="startCase('${c.id}')"><div class="chips"><span class="chip">${esc(c.cat)}</span><span class="chip gold">${esc(c.level)}</span>${done?'<span class="chip">أُنجزت</span>':''}</div><h4>${esc(c.title)}</h4><p>${esc(c.desc)}</p><div class="cardfoot"><span>${c.questions.length} أسئلة اختيارية${pct!==null?' · أفضل نتيجة '+pct+'%':''}</span><span class="openlabel">حلّل القضية ←</span></div></article>`}
+function renderHome(){document.getElementById('totalCases').textContent=cases.length;document.getElementById('completed').textContent=db.history.length;let acc=db.history.length?Math.round(db.history.reduce((s,h)=>s+h.score/h.total,0)/db.history.length*100)+'%':'—';document.getElementById('accuracy').textContent=acc;document.getElementById('points').textContent=db.history.reduce((s,h)=>s+h.score*10,0);document.getElementById('featured').innerHTML=cases.filter(c=>!db.best[c.id]).slice(0,4).map(card).join('')||cases.slice(0,4).map(card).join('');document.getElementById('continueText').textContent=db.history.length?`آخر قضية: ${db.history[0].title} — دقة ${Math.round(db.history[0].score/db.history[0].total*100)}%. استمر لتوسيع مهاراتك.`:'ابدأ أول قضية لتظهر هنا نتائجك وتقدمك.'}
+function renderLibrary(){let cat=document.getElementById('category');if(cat.options.length===1)CATEGORIES.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;cat.appendChild(o)});let s=(document.getElementById('search').value||'').trim().toLowerCase(),category=cat.value,level=document.getElementById('level').value,status=document.getElementById('status').value;let arr=cases.filter(c=>(!s||(c.title+' '+c.desc+' '+c.cat+' '+c.scenario).toLowerCase().includes(s))&&(category==='all'||c.cat===category)&&(level==='all'||c.level===level)&&(status==='all'||(status==='done'?!!db.best[c.id]:!db.best[c.id])));document.getElementById('librarygrid').innerHTML=arr.map(card).join('')||'<div class="empty"><b>لا توجد نتائج مطابقة</b>جرّب كلمة أخرى أو غيّر المرشحات.</div>'}
+function startRandom(){let remaining=cases.filter(c=>!db.best[c.id]);let pool=remaining.length?remaining:cases;startCase(pool[Math.floor(Math.random()*pool.length)].id)}function startCase(id){current=cases.find(c=>c.id===id);if(!current)return;answers=Array(current.questions.length).fill(null);qIndex=0;checked={};renderAnalysis();showPage('analysis')}
+function renderAnalysis(){let c=current;if(!c)return;let mount=document.getElementById('analysisMount');if(qIndex>=c.questions.length){mount.innerHTML=renderResult();return}let q=c.questions[qIndex],letters=['أ','ب','ج','د','هـ','و'];let done=answers.filter(x=>x!==null).length;mount.innerHTML=`<div class="hero-case"><div class="chips"><span class="chip">${esc(c.cat)}</span><span class="chip gold">${esc(c.level)}</span><span class="chip">القضية ${cases.findIndex(x=>x.id===c.id)+1} من ${cases.length}</span></div><h2>${esc(c.title)}</h2><p>${esc(c.scenario)}</p></div><div class="stepbar">${c.questions.map((_,i)=>`<div class="step ${i<=qIndex?'done':''}"></div>`).join('')}</div><div class="question"><div class="qtop"><span>السؤال ${qIndex+1} من ${c.questions.length}</span><span>${done} إجابات مسجلة</span></div><h3>${esc(q.q)}</h3><div class="hint">اختر الإجابة الأقرب إلى التحليل المنطقي والأدلة المتاحة.</div><div class="options">${q.opts.map((o,i)=>`<button class="option ${answers[qIndex]===i?'selected':''} ${checked[qIndex]!==undefined&&i===q.a?'correct':''} ${checked[qIndex]!==undefined&&answers[qIndex]===i&&i!==q.a?'wrong':''}" onclick="choose(${i})" ${checked[qIndex]!==undefined?'disabled':''}><span class="letter">${letters[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>${checked[qIndex]!==undefined?`<div class="feedback ${answers[qIndex]===q.a?'good':'bad'}"><b>${answers[qIndex]===q.a?'إجابة موفقة':'ليست الإجابة الأدق'}</b><br>${esc(q.why)}</div>`:''}</div><div class="case-actions"><button class="btn" onclick="showPage('library')">إنهاء والعودة للمكتبة</button><div style="display:flex;gap:8px">${qIndex>0?'<button class="btn" onclick="prevQuestion()">السابق</button>':''}<button class="btn primary" onclick="nextQuestion()" ${answers[qIndex]===null?'disabled style="opacity:.45;cursor:not-allowed"':''}>${checked[qIndex]===undefined?'تحقق من الإجابة':'التالي ←'}</button></div></div>`}
+function choose(i){if(checked[qIndex]!==undefined)return;answers[qIndex]=i;renderAnalysis()}function nextQuestion(){if(answers[qIndex]===null){toast('اختر إجابة أولًا');return}if(checked[qIndex]===undefined){checked[qIndex]=true;renderAnalysis();return}if(qIndex<current.questions.length-1){qIndex++;renderAnalysis()}else{qIndex=current.questions.length;let score=answers.reduce((n,a,i)=>n+(a===current.questions[i].a?1:0),0);let record={id:current.id,title:current.title,cat:current.cat,score,total:current.questions.length,date:new Date().toISOString()};db.history.unshift(record);if(!db.best[current.id]||score>db.best[current.id].score)db.best[current.id]=record;saveDB();renderAnalysis()}}
+function prevQuestion(){if(qIndex>0){qIndex--;renderAnalysis()}}
+function renderResult(){let c=current,score=answers.reduce((n,a,i)=>n+(a===c.questions[i].a?1:0),0),pct=Math.round(score/c.questions.length*100),title=pct===100?'تحليل متقن':pct>=75?'تفكير جيد':pct>=50?'بداية جيدة':'فرصة للتعلّم';return `<div class="result"><div class="eyebrow">اكتملت القضية</div><h3>${title}</h3><div class="score">${score}/${c.questions.length}</div><p>دقة إجاباتك ${pct}%. القوة ليست في الوصول إلى نتيجة فقط، بل في معرفة سبب صحتها وحدودها.</p><div class="result-grid"><div class="resultstat"><b>${score*10}</b><span>نقاط هذه القضية</span></div><div class="resultstat"><b>${pct}%</b><span>دقة الإجابات</span></div><div class="resultstat"><b>${esc(c.level)}</b><span>مستوى القضية</span></div></div><div style="text-align:right;margin:20px 0"><h3>مراجعة الإجابات</h3>${c.questions.map((q,i)=>`<div style="padding:12px 0;border-bottom:1px solid var(--line)"><b style="font-size:13px">${i+1}. ${esc(q.q)}</b><p style="font-size:12px;line-height:1.8;color:var(--muted)">إجابتك: ${esc(q.opts[answers[i]])}<br>الإجابة الأدق: ${esc(q.opts[q.a])}<br>${esc(q.why)}</p></div>`).join('')}</div><div class="case-actions" style="justify-content:center"><button class="btn" onclick="showPage('progress')">عرض التقدم</button><button class="btn" onclick="showPage('library')">مكتبة القضايا</button><button class="btn primary" onclick="startRandom()">قضية أخرى ←</button></div></div>`}
+function renderProgress(){let hist=db.history;document.getElementById('pCompleted').textContent=hist.length;document.getElementById('pAccuracy').textContent=hist.length?Math.round(hist.reduce((s,h)=>s+h.score/h.total,0)/hist.length*100)+'%':'—';document.getElementById('pPoints').textContent=hist.reduce((s,h)=>s+h.score*10,0);document.getElementById('pCategories').textContent=new Set(hist.map(h=>h.cat)).size;document.getElementById('history').innerHTML=hist.length?hist.slice(0,40).map(h=>`<div style="padding:13px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center"><div><b style="font-size:13px">${esc(h.title)}</b><div class="muted">${esc(h.cat)} · ${new Date(h.date).toLocaleDateString('ar-EG')}</div></div><b>${h.score}/${h.total} · ${Math.round(h.score/h.total*100)}%</b></div>`).join(''):'<div class="empty"><b>لا توجد محاولات بعد</b>حلّل قضية لتظهر نتائجك هنا.</div>'}
+function exportData(){let blob=new Blob([JSON.stringify({app:'مِحكّ',version:1,exportedAt:new Date().toISOString(),data:db},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='mihakk-progress.json';a.click();URL.revokeObjectURL(url);toast('تم تجهيز ملف التصدير')}
+function resetProgress(){document.getElementById('modalTitle').textContent='مسح سجل التقدم';document.getElementById('modalBody').innerHTML='<p style="font-size:13px;line-height:1.9">سيؤدي ذلك إلى حذف نتائجك المحفوظة من هذا الجهاز. لن تُحذف مكتبة القضايا. لا يمكن التراجع عن هذه الخطوة.</p>';document.getElementById('modalConfirm').onclick=()=>{db={history:[],best:{}};saveDB();closeModal();renderProgress();renderHome();renderLibrary();toast('تم مسح التقدم')};document.getElementById('modalback').classList.add('show')}
+function closeModal(){document.getElementById('modalback').classList.remove('show')}document.getElementById('modalback').addEventListener('click',e=>{if(e.target.id==='modalback')closeModal()});renderHome();
+</script></body></html>
